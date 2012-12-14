@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="mainCampo.xhtml" x="157" y="85" zoom="true"/>
+        <Node id="Plantillas/principal.xhtml" x="879" y="212" zoom="true"/>
+        <Node id="index.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="Plantillas/pie.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="altaCampo.xhtml" x="160" y="227" zoom="true"/>
+        <Node id="Plantillas/menu.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="campo.xhtml" x="893" y="53" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

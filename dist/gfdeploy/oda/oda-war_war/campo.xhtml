@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./Plantillas/principal.xhtml">
+
+            <ui:define name="tituloVentana">
+                ODA - Administracion de Campos
+            </ui:define>
+            
+            <ui:define name="content">
+                <h:form id="formularioCampo">
+                    
+                    <f:event type="preRenderComponent" listener="#{controladorCampo.listarTodos}"/>
+                    
+                    <p:layout style="min-width:400px;min-height:400px;">
+                        <p:layoutUnit position="center" size="100" minSize="50" maxSize="200">
+                    
+                            <p:dataTable id="tablaCampos" var="campos" value="#{controladorCampo.campos}" paginatorAlwaysVisible="false" 
+                                         paginator="true" rows="15" style="margin: 10px" selectionMode="single" selection="#{controladorCampo.seleccionado}" 
+                                         rowKey="#{campos.id}" emptyMessage="No hay datos que mostrar">
+                                
+
+                                <p:column id="descripcionCabecera" headerText="Descripcion" sortBy="#{campos.des}" filterBy="#{campos.des}">
+                                    #{campos.des}
+                                </p:column>
+                                
+                                <p:column id="tipoCabecera" headerText="Tipo" sortBy="#{campos.tipo}" filterBy="#{campos.tipo}">
+                                    <c:choose>
+                                        <c:when test="${campos.tipo == C}">
+                                            Cadena de caracteres
+                                        </c:when>
+                                        <c:when test="${campos.tipo == N}">
+                                            Numerico
+                                        </c:when>
+                                        <c:when test="${campos.tipo == B}">
+                                            Logico
+                                        </c:when>
+                                    </c:choose>
+                                </p:column>
+                                
+                                <p:column id="multiCabecera" headerText="Multivalor" sortBy="#{campos.multi}" >
+                                    <c:choose>
+                                        <c:when test="${campos.multi}">
+                                            Si
+                                        </c:when>
+                                        <c:when test="${!campos.multi}">
+                                            No
+                                        </c:when>
+                                    </c:choose>
+                                </p:column>
+                                
+                                <p:column id="listaCabecera" headerText="Lista" sortBy="#{campos.multi}">
+                                    <c:choose>
+                                        <c:when test="${campos.lista}">
+                                            Si
+                                        </c:when>
+                                        <c:when test="${!campos.lista}">
+                                            No
+                                        </c:when>
+                                    </c:choose>
+                                </p:column>
+                        
+                                <f:facet name="footer">
+                                    <p:commandButton id="AñadirBoton" value="Nuevo" icon="ui-icon-new" action="#"/>
+                                    <p:commandButton id="EliminarBoton" value="Eliminar" icon="ui-icon-delete" action="campoDel.show()"
+                                                     update=":formularioCampo"/>
+                                </f:facet>
+                            </p:dataTable>
+                        </p:layoutUnit>
+                    </p:layout> 
+                    
+                    <p:confirmDialog id="eliminarCampo" header="Eliminar campo" severity="alert"
+                                     message="¿Desea eliminar el campo #{controladorCampo.seleccionado.des}?"
+                                     rendered="#{not empty controladorCampo.seleccionado}" widgetVar="campoDel" width="250"
+                                     height="200">
+                        <p:commandButton value="Si" oncomplete="campoDel.hide()" action="#{controladorCampo.doBaja}"
+                                         update="tablaCampos"/>
+                        <p:commandButton value="No" onclick="campoDel.hide()" />
+                    </p:confirmDialog>
+                    
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

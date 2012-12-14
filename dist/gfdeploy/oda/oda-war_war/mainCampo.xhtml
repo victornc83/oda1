@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./Plantillas/principal.xhtml">
+
+            <ui:define name="tituloVentana">
+                ODA - Administracion de Campos
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="form">
+                    
+                    <f:event type="preRenderComponent" listener="#{controladorCampo.listarTodos}"/>
+                    
+                    <p:layout fullPage="false" style="min-height:350px">
+                        
+                        <p:layoutUnit id="lateral" position="west" size="180" collapsible="true" header="Opciones">
+                            <p:menu id="barra" style="height: 100% ;min-width:166px">
+                                <p:menuitem value="Nuevo" url="/faces/altaCampo.xhtml" icon="ui-icon-new"/>
+                                <p:menuitem value="Guardar" actionListener="#" icon="ui-icon-arrowrefresh-1-w" disabled="#{!controladorCampo.tengoElegido}"/>
+                                <p:menuitem value="Eliminar" icon="ui-icon-close" 
+                                            disabled="#{!controladorCampo.tengoElegido}" update=":form:confirma" oncomplete="confirmacionBaja.show()"/>
+                            </p:menu>
+                        </p:layoutUnit>
+
+                        
+                        <p:layoutUnit id="central" position="center" header="Campos">
+                    
+                            <p:dataTable id="tablaCampos" var="campos" value="#{controladorCampo.campos}" paginatorAlwaysVisible="true" 
+                                         paginator="true" rows="7" style="margin: 0px" selectionMode="single" rowKey="#{campos.id}"
+                                         selection="#{controladorCampo.seleccionado}" emptyMessage="No hay datos que mostrar">
+
+                                <p:ajax event="rowSelect" listener="#{controladorCampo.seleccionListener}" update=":form:barra :form:info"/>
+                                
+                                <p:column id="descripcionCabecera" headerText="Descripcion" sortBy="#{campos.des}" filterBy="#{campos.des}">
+                                    #{campos.des}
+                                </p:column>
+                                
+                                <p:column id="tipoCabecera" headerText="Tipo" sortBy="#{campos.tipo}" filterBy="#{campos.tipo}">
+                                    <h:outputText value="Cadena de Caracteres" escape="false" rendered="#{campos.tipo eq 'C'}"/>
+                                    <h:outputText value="Numerico" escape="false" rendered="#{campos.tipo eq 'N'}"/>
+                                    <h:outputText value="Logico" escape="false" rendered="#{campos.tipo eq 'B'}"/>
+                                </p:column>
+                                
+                                <p:column id="multiCabecera" headerText="Multivalor" sortBy="#{campos.multi}" >
+                                    <h:outputText value="Si" escape="false" rendered="#{campos.multi}"/>
+                                    <h:outputText value="No" escape="false" rendered="#{!campos.multi}"/>
+                                </p:column>
+                                
+                                <p:column id="listaCabecera" headerText="Lista" sortBy="#{campos.multi}">
+                                    <h:outputText value="Si" escape="false" rendered="#{campos.lista}"/>
+                                    <h:outputText value="No" escape="false" rendered="#{!campos.lista}"/>
+                                </p:column>
+                        
+                            </p:dataTable>
+                            
+                            <h:panelGrid id="info" columns="2" cellpadding="4" width="auto">  
+  
+                                <f:facet name="header">  
+                                #{controladorCampo.seleccionado.des} 
+                                </f:facet>  
+                            
+                                <h:outputText value="Id:" />  
+                                <h:outputText value="#{controladorCampo.seleccionado.id}" />  
+                               
+                                <h:outputText value="Descripcion:" />  
+                                <h:outputText value="#{controladorCampo.seleccionado.des}" />
+                            
+                                <h:outputText value="Valores: " />
+                                <p:dataList value="#{controladorCampo.seleccionado.valores}" var="casa" style="border-spacing: 15px" rendered="#{controladorCampo.tengoElegido}" >
+                                    #{casa.valor}
+                                </p:dataList>
+                            
+                            </h:panelGrid>
+                            
+                        </p:layoutUnit>
+
+                    </p:layout>
+                    
+                    <p:confirmDialog id="confirma" 
+                        message="Vas a eliminar el campo #{controladorCampo.seleccionado.des} con id #{controladorCampo.seleccionado.id}, ¿Estas seguro?"
+                        showEffect="bounce" hideEffect="explode" header="Procesando baja" severity="alert" 
+                        widgetVar="confirmacionBaja" draggable="true" >
+
+                        <p:commandButton value="Si" oncomplete="confirmacionBaja.hide()" action="#{controladorCampo.doBaja}"
+                                         update=":form"/>
+                        <p:commandButton value="No" onclick="confirmacionBaja.hide()" />
+                    </p:confirmDialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./Plantillas/principal.xhtml">
+
+            <ui:define name="tituloVentana">
+                ODA - Alta de Campos
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <p:layout fullPage="false" style="min-height:350px">
+                        <p:layoutUnit id="lateral" position="west" size="180" header="Opciones">
+                            <p:menu id="barra" style="height: 100% ;min-width:166px">
+                                <p:menuitem value="Guardar" icon="ui-icon-arrowrefresh-1-w" action="#{controladorCampo.doAlta}" immediate="true"/>
+                                <p:menuitem value="Limpiar" icon="ui-icon-close" update="grid @parent"/>
+                            </p:menu>
+                        </p:layoutUnit>
+                        
+                        <p:layoutUnit id="central" position="center" header="Formulario de alta - Campos">
+                            <h:panelGrid id="grid" columns="3" style="margin: 15px">
+                                <h:outputText for="campo" value="Campo:" style="margin: 10px"/>
+                                <p:inputText id="campo" value="#{controladorCampo.descripcion}" required="true" label="Campo" >
+                                    <f:validateLength minimum="3" maximum="25"/>
+                                </p:inputText>
+                                <p:message id="mensajeCampo" for="campo"/>
+                                
+                                <h:outputText for="tipo" value="Tipo de datos:" style="margin: 10px"/>
+                                <p:selectOneMenu id="tipo" value="#{controladorCampo.tipo}" required="true" label="Tipo de Datos">
+                                    <f:selectItem itemLabel="Seleccionar tipo" itemValue=""/>
+                                    <f:selectItem itemLabel="Numerico" itemValue="N" />
+                                    <f:selectItem itemLabel="Logico" itemValue="B" />
+                                    <f:selectItem itemLabel="Cadena de Caracteres" itemValue="C"/>
+                                </p:selectOneMenu>
+                                <p:message id="mensajeTipo" for="tipo"/>
+                                
+                                <h:outputText for="multi" value="Modo de valor:" style="margin: 10px"/>
+                                <p:selectOneButton id="multi" value="#{controladorCampo.multi}" required="true" label="Modo de valor">
+                                    <f:selectItem itemLabel="Valor Unico" itemValue="false" />
+                                    <f:selectItem itemLabel="Valor Multiple" itemValue="true" />
+                                </p:selectOneButton>
+                                <p:message id="mensajeMulti" for="multi"/>
+       
+                                <h:outputText for="lista" value="¿Seleccionar desde lista?" style="margin: 10px"/>
+                                <p:selectOneButton id="lista" value="#{controladorCampo.lista}" required="true" label="¿Seleccionar desde lista?">
+                                    <p:ajax update="listaValores"/>
+                                    <f:selectItem itemLabel="No" itemValue="false" />
+                                    <f:selectItem itemLabel="Si" itemValue="true"/>
+                                </p:selectOneButton>
+                                <p:message id="mensajeLista" for="lista"/>
+
+                            </h:panelGrid>
+                            
+                            
+
+                            <p:outputPanel id="listaValores">
+                                <p:dataTable id="tablaValores" value="#{controladorCampo.listaValores}" var="valores" style="width: 350px; margin-left: 60px;" 
+                                             emptyMessage="Sin valores" rendered="#{controladorCampo.lista}">
+                                    
+                                    <f:facet name="header">
+                                        Valores
+                                    </f:facet>
+                                    
+                                    <p:column style="width: 280px">
+                                        <f:facet name="header">
+                                            <h:outputText value="Valor"/>
+                                        </f:facet>
+                                        <h:outputText value="#{valores.valor}"/>
+                                    </p:column>
+                                    
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Borrar"/>
+                                        </f:facet>
+                                        <p:commandButton icon="ui-icon-close" update=":form:listaValores" process=":form:listaValores">
+                                            <p:collector value="#{valores}" removeFrom="#{controladorCampo.listaValores}"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                    
+                                    <f:facet name="footer">
+                                        <p:commandButton value="Añadir" update=":form:anadirValor" oncomplete="addValor.show()"/>
+                                    </f:facet>
+                                    
+                                </p:dataTable>
+                            </p:outputPanel>    
+                            
+                            <p:dialog id="anadirValor" header="Añadir valor asociado a #{controladorCampo.descripcion}" widgetVar="addValor">
+                                <h:panelGrid id="gridValores" columns="3" rendered="#{controladorCampo.lista}">
+                                    <h:outputText value="Valor: "/>
+                                    <p:inputText id="valor" value="#{controladorCampo.valor.valor}" required="true" label="Valor" maxlength="50"/>
+                                    
+                                    <p:commandButton id="boton_add" value="+" update="listaValores @parent" action="#{controladorCampo.reiniciarValor}" >
+                                        <p:collector value="#{controladorCampo.valor}" addTo="#{controladorCampo.listaValores}" />
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </p:dialog>
+                                      
+                            
+                        </p:layoutUnit>
+                    </p:layout>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

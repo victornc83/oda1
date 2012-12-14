@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <h:form>
+            <p:toolbar id="menu">
+                <p:toolbarGroup align="left">
+                    <p:commandButton icon="ui-icon-home" action="#"/>
+                    <p:menuButton value="Administración">
+                        <p:menuitem value="Campos" action="#"/>
+                        <p:menuitem value="Categorias" action="#"/>
+                        <p:menuitem value="Roles" action="#"/>
+                        <p:menuitem value="Usuarios" action="#"/>
+                    </p:menuButton>
+                    <p:menuButton value="Datos Estadisticos">
+                        <p:menuitem value="Buscar" action="#"/>
+                        <p:menuitem value="Insertar" action="#"/>
+                    </p:menuButton>
+                    <p:menuButton value="Informes">
+                        <p:menuitem value="Buscar" action="#"/>
+                        <p:menuitem value="Generar" action="#"/>
+                    </p:menuButton>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:menuButton value="Victor Nieto">
+                        <p:menuitem value="Salir" actionListener="#" icon="ui-icon-disk"/>
+                    </p:menuButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+        </h:form>
+    </ui:composition>
+</html>

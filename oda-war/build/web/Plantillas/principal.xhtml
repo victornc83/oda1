@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta name="keywords" content="oda, observatorio de la delincuencia, delincuencia andalucía, malaga, investigacion, instituto andaluz interuniversitario de criminologia, informes oda"/>
+        <meta name="keywords" content="ODA, OBSERVATORIO, OBSERVATORIO DE LA DELINCUENCA, MALAGA, INVESTIGACION, INSTITUTO ANDALUZ INTERUNIVERSITARIO DE CRIMINOLOGIA, INFORMES ODA"/>
+        <meta name="description" content="ODA - Observatorio de la delincuencia. 
+              El Observatorio de la delincuencia en Andalucía es una iniciativa que ha surgido 
+              en el seno del Instituto andaluz interuniversitario de Criminología en su sección 
+              de Málaga. Este Observatorio se constituye en un centro para el estudio de la 
+              evolución de la delincuencia en la Comunidad Autónoma andaluza. "/>
+        <meta name="distribution" content="global"/>
+        <meta name="Revisit" content="30 days"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="Content-Style-Type" content="text/css"/>
+        <title><ui:insert name="tituloVentana"/></title>
+        <link href="./../resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./../resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+    </h:head>
+
+    <h:body>
+        <div id="top" class="top">
+            <div id="logo" class="logo" style="border: thin solid whitesmoke">
+                <center>
+                    <h:graphicImage value="./../resources/images/logo.jpg"/>
+                </center>
+            </div>
+        </div>
+        <div id="menu" class="menu">
+                <ui:include src="menu.xhtml"/>
+        </div>
+        <div>
+            <div id="content" class="content">
+                <ui:insert name="content">Contenido</ui:insert>
+            </div>
+            <div id="bottom">
+                <ui:include src="pie.xhtml"/>
+            </div>
+        </div>
+    </h:body>
+
+</html>
